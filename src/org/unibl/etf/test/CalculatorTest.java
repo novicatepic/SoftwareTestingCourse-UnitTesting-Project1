@@ -9,6 +9,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -20,6 +21,7 @@ import org.unibl.etf.exception.NotSupportedOperationException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@DisplayName("Calculator Tests")
 class CalculatorTest {
 	private Calculator calculator;
 	
@@ -40,11 +42,14 @@ class CalculatorTest {
 	void tearDown() throws Exception {
 	}
 
+	@DisplayName("Constructor Test")
 	@Test
 	void testCalculator() {
 		assertThat(calculator, notNullValue());
+		assertThat(calculator.getCurrentValue(), is(0.0));
 	}
 
+	@DisplayName("Addition Tests")
 	@ParameterizedTest
 	@MethodSource("correctPlusParameters")
 	void testCorrectAddition(Double value, char operator) {
@@ -57,6 +62,7 @@ class CalculatorTest {
 		
 	}
 	
+	@DisplayName("Subtraction Tests")
 	@ParameterizedTest
 	@MethodSource("correctMinusParameters")
 	void testCorrectSubtraction(Double value, char operator) {
@@ -68,6 +74,7 @@ class CalculatorTest {
 		}	
 	}
 	
+	@DisplayName("Multiplication Tests")
 	@ParameterizedTest
 	@MethodSource("correctMultiplyParameters")
 	void testCorrectMultiplication(Double value, char operator) {
@@ -81,6 +88,7 @@ class CalculatorTest {
 		}	
 	}
 	
+	@DisplayName("Division Tests")
 	@ParameterizedTest
 	@MethodSource("correctDivisonParameters")
 	void testCorrectDivison(Double value, char operator) {
@@ -94,6 +102,7 @@ class CalculatorTest {
 		}	
 	}
 	
+	@DisplayName("Null Value Test")
 	@Test
 	void testNullValue() {
 		try {
@@ -105,53 +114,31 @@ class CalculatorTest {
 		}
 	}
 	
-	@Test
-	void testDivisionByZero() {
-		try {
-			calculator.setCurrentValue(4.0);
-			Exception exception = assertThrows(DivisionByZeroException.class, () -> {
-				calculator.calculate(0.0, '/');
-	        });
-			assertThat(exception, is(instanceOf(DivisionByZeroException.class)));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Test
-	void testSubtractionByZero() {
-		try {
-			calculator.setCurrentValue(4.0);
-			Double oldValue = calculator.getCurrentValue();
-			calculator.calculate(0.0, '-');
-			assertThat(calculator.getCurrentValue(), is(oldValue));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Test
-	void testNotSupportedOperation() {
-		try {
-			calculator.setCurrentValue(4.0);
-			Exception exception = assertThrows(NotSupportedOperationException.class, () -> {
-				calculator.calculate(1.0, '#');
-	        });
-			assertThat(exception, is(instanceOf(NotSupportedOperationException.class)));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	@DisplayName("Exceptions Tests")
+	@ParameterizedTest
+	@MethodSource("exceptionTests")
+	void calculateTestExceptions(Double currentValue, Double value, char option, Class<? extends Exception> exceptionClass) throws Exception {
+		calculator.setCurrentValue(currentValue);
+		Exception exc = assertThrows(exceptionClass, () -> calculator.calculate(value, option));
+		assertThat(exc, is(instanceOf(exceptionClass)));
 	}
 
+	@DisplayName("Calculator Get Current Value Test")
 	@Test
 	void testGetCurrentValue() {
 		assertThat(calculator.getCurrentValue(), is(0.0));
 	}
 
+	@DisplayName("Calculator Set Current Value Test")
 	@Test
 	void testSetCurrentValue() {
 		calculator.setCurrentValue(1.0);
 		assertThat(calculator.getCurrentValue(), is(1.0));
+	}
+	
+	private static Stream<Arguments> exceptionTests() {
+		return Stream.of(Arguments.of(0.0, 10.0, '#', NotSupportedOperationException.class),
+				Arguments.of(10.0, 0.0, '/', DivisionByZeroException.class));
 	}
 	
 	private static Stream<Arguments> correctPlusParameters() {

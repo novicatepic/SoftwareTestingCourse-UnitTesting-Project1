@@ -1,12 +1,28 @@
 package org.unibl.etf.calculator;
 
-import javax.naming.OperationNotSupportedException;
-
 import org.unibl.etf.exception.NotSupportedOperationException;
 import org.unibl.etf.exception.NumberNotInAreaException;
 
+/**
+ * Represents a class used for advanced calculations, extends Calculator class.
+ * Supports factorial and graduation computation, as well as checking if a number is Armstrong or perfect number.
+ * 
+ * 
+ * @author Novica Tepic
+ * @version 1.0
+ * @since 2023-11-21
+ */
 public class CalculatorAdvanced extends Calculator {
 
+	/**
+	 * Calculates factorial or graduation of a number based on action parameter.
+	 * Factorial is calculated only if current value in the calculator is between 0 and 10 and the action parameter is '!'.
+	 * Graduation is calculated only if action parameter is between '0' and '9'.
+	 * 
+	 * @param action Character based on which calculator performs operations, valid characters are '!' and between '0' and '9'.
+	 * @throws NotSupportedOperationException Thrown if operation is not '!' or is not between '0' and '9'.
+	 * @throws NumberNotInAreaException Thrown if the current value in the calculator is not between 0 and 10 when performing factorial operation.
+	 */
 	public void calculateAdvanced(char action) throws NotSupportedOperationException, NumberNotInAreaException {
 		
 		Double currentValue = getCurrentValue();
@@ -18,12 +34,16 @@ public class CalculatorAdvanced extends Calculator {
 		}
 		
 		if(action == '!') {
-			Integer currentValueInteger = currentValue.intValue();
-			if(currentValueInteger >= 0 && currentValueInteger <= 10) {	
-				calculateFactorial();
-			} else {
+			if(currentValue < 0 || currentValue > 10) {
 				throw new NumberNotInAreaException();
 			}
+			Integer currentValueInteger = currentValue.intValue();
+
+			if (currentValueInteger == 0 || currentValueInteger == 1) {
+	            setCurrentValue(1.0);
+	        } else if(currentValueInteger <= 10) {
+	        	calculateFactorial();
+	        } 
 		} else {
 			if(action != '0') {
 				int intAction = Character.getNumericValue(action);
@@ -40,22 +60,28 @@ public class CalculatorAdvanced extends Calculator {
 		}
 	}
 	
+	/**
+	 * Calculates factorial for numbers greater or equal to 2.
+	 */
 	private void calculateFactorial() {
 		Double currentValue = getCurrentValue();
 		Integer currentValueInteger = currentValue.intValue();
 
-        if (currentValueInteger == 0 || currentValueInteger == 1) {
-            setCurrentValue(1.0);
-        } else {
-        	double result = 1.0;
-            for (int i = 2; i <= currentValueInteger; i++) {
-            	result *= i;
-            }
-            setCurrentValue(result);
-        }       
+    	double result = 1.0;
+        for (int i = 2; i <= currentValueInteger; i++) {
+        	result *= i;
+        }
+        setCurrentValue(result);      
 	}
 	
-	public Boolean hasCharacteristic(char value) throws NumberNotInAreaException, OperationNotSupportedException {
+	/**
+	 * Returns whether the integer part of the number is Armstrong number or a perfect number.
+	 * @param value Character which determines whether to check if a number is Armstrong number or a number is a perfect number. For Armstrong valid character is 'A', for perfect it is 'P'.
+	 * @return true if the current value in the calculator meets required conditions, false otherwise.
+	 * @throws NumberNotInAreaException Thrown is current value in the calculator is less than 1.
+	 * @throws OperationNotSupportedException Thrown if parameter of the method is different from 'A' or 'P'.
+	 */
+	public Boolean hasCharacteristic(char value) throws NumberNotInAreaException, NotSupportedOperationException {
 		Double currentValue = getCurrentValue();
 		
 		if(currentValue < 1) {
@@ -70,12 +96,16 @@ public class CalculatorAdvanced extends Calculator {
 				return true;
 			}
 		} else {
-			throw new OperationNotSupportedException();
+			throw new NotSupportedOperationException();
 		}
 		
 		return false;
 	}
 	
+	/**
+	 * Checks whether Integer part of the calculator is an Armstrong number.
+	 * @return true if a number is an Armstrong number, false otherwise.
+	 */
 	private boolean isArmstrongNumber() {
 		Double currentValue = getCurrentValue();
 		Integer currentValueInteger = currentValue.intValue();
@@ -93,16 +123,24 @@ public class CalculatorAdvanced extends Calculator {
         return sum == currentValue.intValue();
     }
 	
-	private static int powerWithLoop(double base, int exponent) {
+	/**
+	 * Calculates graduation of a number.
+	 * @param base Double value which represents base when calculating graduation.
+	 * @param exponent Integer value which represents the value on which base will be graduated.
+	 * @return Result of the graduation.
+	 */
+	private int powerWithLoop(double base, int exponent) {
         int result = 1;
-
         for (int i = 0; i < exponent; i++) {
             result *= base;
         }
-
         return result;
     }
 	
+	/**
+	 * Checks whether a number is a perfect number.
+	 * @return true if a number is a perfect number, false otherwise.
+	 */
 	private boolean isPerfectNumber() {
 		Double currentValue = getCurrentValue();
 		Integer currentValueInteger = currentValue.intValue();
@@ -115,17 +153,12 @@ public class CalculatorAdvanced extends Calculator {
 			return false;
 		}
 		
-		// Calculate the sum of positive divisors
-		long sum = 1; // Start with 1 since every number is a divisor of itself
+		long sum = 1; 
 		for (int i = 2; i <= currentValueInteger / 2; i++) {
 		    if (currentValueInteger % i == 0) {
 		        sum += i;
 		    }
 		}
-
-		// Check if the sum equals the original value
 		return sum == currentValueInteger;
     }
-
-	
 }
