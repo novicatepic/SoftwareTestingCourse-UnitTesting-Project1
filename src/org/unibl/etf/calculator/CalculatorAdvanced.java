@@ -41,9 +41,14 @@ public class CalculatorAdvanced extends Calculator {
 
 			if (currentValueInteger == 0 || currentValueInteger == 1) {
 	            setCurrentValue(1.0);
-	        } else if(currentValueInteger <= 10) {
+	        } /*else if(currentValueInteger <= 10) {
 	        	calculateFactorial();
-	        } 
+	        } */
+			else if(currentValueInteger <= 9) {
+	        	calculateFactorial();
+			} else {
+				setCurrentValue(3628800.0);
+			}
 		} else {
 			if(action != '0') {
 				int intAction = Character.getNumericValue(action);
@@ -78,8 +83,8 @@ public class CalculatorAdvanced extends Calculator {
 	 * Returns whether the integer part of the number is Armstrong number or a perfect number.
 	 * @param value Character which determines whether to check if a number is Armstrong number or a number is a perfect number. For Armstrong valid character is 'A', for perfect it is 'P'.
 	 * @return true if the current value in the calculator meets required conditions, false otherwise.
-	 * @throws NumberNotInAreaException Thrown is current value in the calculator is less than 1.
-	 * @throws OperationNotSupportedException Thrown if parameter of the method is different from 'A' or 'P'.
+	 * @throws NumberNotInAreaException Thrown if the current value in the calculator is less than 1.
+	 * @throws NotSupportedOperationException Thrown if parameter of the method is different from 'A' or 'P'.
 	 */
 	public Boolean hasCharacteristic(char value) throws NumberNotInAreaException, NotSupportedOperationException {
 		Double currentValue = getCurrentValue();

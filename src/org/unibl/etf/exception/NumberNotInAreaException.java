@@ -16,7 +16,7 @@ public class NumberNotInAreaException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Represents constructor which calls parent constructor with a 'Number not in area!' message.
+	 * Represents constructor which calls the parent constructor with a 'Number not in area!' message.
 	 */
 	public NumberNotInAreaException() {
 		super("Number not in area!");

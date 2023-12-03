@@ -16,7 +16,7 @@ public class DivisionByZeroException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Represents constructor which calls parent constructor with a 'Division by zero!' message.
+	 * Represents constructor which calls the parent constructor with a 'Division by zero!' message.
 	 */
 	public DivisionByZeroException() {
 		super("Division by zero!");

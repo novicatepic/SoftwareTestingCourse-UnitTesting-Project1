@@ -16,7 +16,7 @@ public class NotSupportedOperationException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Represents constructor which calls parent constructor with a 'Not supported operation!' message.
+	 * Represents constructor which calls parent the constructor with a 'Not supported operation!' message.
 	 */
 	public NotSupportedOperationException() {
 		super("Not supported operation!");

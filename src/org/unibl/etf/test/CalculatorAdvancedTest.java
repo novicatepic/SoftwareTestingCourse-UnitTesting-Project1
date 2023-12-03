@@ -60,6 +60,8 @@ class CalculatorAdvancedTest {
 	private static Stream<Arguments> correctFactorialParameters() {
 		return Stream.of(
 			Arguments.of(0.0,'!', 1.0),
+			Arguments.of(1.0,'!', 1.0),
+			Arguments.of(9.0,'!', 362880.0),
 			Arguments.of(10.0,'!', 3628800.0)	
 		);
 	}
@@ -100,7 +102,7 @@ class CalculatorAdvancedTest {
 			Arguments.of(2.0, ':'), //Because : is after '9',
 			Arguments.of(2.0, '\u002F'), //equivalent to '/'
 			Arguments.of(2.0, '\u003A'), //equivalent to ':'
-			Arguments.of(2.0, 'x')
+			Arguments.of(2.0, 'x') //random wrong value
 		);
 	}
 	
@@ -119,8 +121,8 @@ class CalculatorAdvancedTest {
 			Arguments.of(5.0, '1', 5.0), //power one
 			Arguments.of(2.0, '0', 1.0), //lower bound
 			Arguments.of(2.0, '9', 512.0), //upper bound
-			Arguments.of(2.0, '\u0030', 1.0), //equivalent to '0'
-			Arguments.of(2.0, '\u0039', 512.0) //equivalent to '9'
+			Arguments.of(2.0, '\u0030', 1.0), //equivalent to '0', extra test
+			Arguments.of(2.0, '\u0039', 512.0) //equivalent to '9', extra test
 		);
 	}
 	
@@ -151,9 +153,9 @@ class CalculatorAdvancedTest {
 	
 	private static Stream<Arguments> correctArmstrongParameters() {
 		return Stream.of(
-			Arguments.of(153.1, 'A'),
-			Arguments.of(1634.5, 'A'),
-			Arguments.of(153.9, 'A'),
+			Arguments.of(153.1, 'A'), //testing less than 153.5
+			Arguments.of(1634.5, 'A'), //test on boundar .5
+			Arguments.of(153.9, 'A'), //testing greater than 153.5 just to see if it is rounded
 			Arguments.of(1634.6, 'A')
 		);
 	}
@@ -175,7 +177,7 @@ class CalculatorAdvancedTest {
 			Arguments.of(6.0, 'P'),
 			Arguments.of(28.6, 'P'),
 			Arguments.of(496.9, 'P'),
-			Arguments.of(8128.1, 'P')
+			Arguments.of(8128.1, 'P') //extra tests for decimal places added, doesn't affect PIT 
 		);
 	}
 	
