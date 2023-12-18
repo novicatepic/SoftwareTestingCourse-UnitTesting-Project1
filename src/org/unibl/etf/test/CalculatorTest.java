@@ -52,66 +52,46 @@ class CalculatorTest {
 	@DisplayName("Addition Tests")
 	@ParameterizedTest
 	@MethodSource("correctPlusParameters")
-	void testCorrectAddition(Double value, char operator) {
-		try {
-			calculator.calculate(value, operator);
-			assertThat(calculator.getCurrentValue(),is(value));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	void testCorrectAddition(Double value, char operator) throws Exception {
+		calculator.calculate(value, operator);
+		assertThat(calculator.getCurrentValue(),is(value));
 		
 	}
 	
 	@DisplayName("Subtraction Tests")
 	@ParameterizedTest
 	@MethodSource("correctMinusParameters")
-	void testCorrectSubtraction(Double value, char operator) {
-		try {
-			calculator.calculate(value, operator);
-			assertThat(calculator.getCurrentValue(),is(-value));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}	
+	void testCorrectSubtraction(Double value, char operator) throws Exception {
+		calculator.calculate(value, operator);
+		assertThat(calculator.getCurrentValue(),is(-value));
 	}
 	
 	@DisplayName("Multiplication Tests")
 	@ParameterizedTest
 	@MethodSource("correctMultiplyParameters")
-	void testCorrectMultiplication(Double value, char operator) {
-		try {
-			calculator.setCurrentValue(4.1);
-			Double oldValue = calculator.getCurrentValue();
-			calculator.calculate(value, operator);
-			assertThat(calculator.getCurrentValue(),is(oldValue * value));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}	
+	void testCorrectMultiplication(Double value, char operator) throws Exception {
+		calculator.setCurrentValue(4.1);
+		Double oldValue = calculator.getCurrentValue();
+		calculator.calculate(value, operator);
+		assertThat(calculator.getCurrentValue(),is(oldValue * value));
 	}
 	
 	@DisplayName("Division Tests")
 	@ParameterizedTest
 	@MethodSource("correctDivisonParameters")
-	void testCorrectDivison(Double value, char operator) {
-		try {
-			calculator.setCurrentValue(4.1);
-			Double oldValue = calculator.getCurrentValue();
-			calculator.calculate(value, operator);
-			assertThat(calculator.getCurrentValue(),is(oldValue / value));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}	
+	void testCorrectDivison(Double value, char operator) throws Exception {
+		calculator.setCurrentValue(4.1);
+		Double oldValue = calculator.getCurrentValue();
+		calculator.calculate(value, operator);
+		assertThat(calculator.getCurrentValue(),is(oldValue / value));
 	}
 	
 	@DisplayName("Null Value Test")
 	@Test
-	void testNullValue() {
-		try {
-			calculator.setCurrentValue(4.0);
-			calculator.calculate(null, '+');
-			assertThat(calculator.getCurrentValue(),is(Double.valueOf(4.0)));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	void testNullValue() throws Exception {
+		calculator.setCurrentValue(4.0);
+		calculator.calculate(null, '+');
+		assertThat(calculator.getCurrentValue(),is(Double.valueOf(4.0)));
 	}
 	
 	@DisplayName("Exceptions Tests")
